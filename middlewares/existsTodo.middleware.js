@@ -1,7 +1,7 @@
 import * as todosModel from "../models/todos.model.js";
 
-const existsTodo = (req, res, next) => {
-    const found = todosModel.getTodoById(req.params.id);
+const existsTodo = async (req, res, next) => {
+    const found = await todosModel.getTodoById(req.params.id);
 
     if(!found){
         return res.status(404).json({
@@ -9,6 +9,7 @@ const existsTodo = (req, res, next) => {
             message: "Tarea no encontrada",
         })
     }
+    req.todo = found;//Guardamos la tarea
     next();
 }
 

@@ -5,7 +5,10 @@ const updateTodoSchema = z.object({
     .string("El título es requerido")
     .trim()
     .min(1, "El título no puede estar vacío"),
-    completed: z.boolean("El valor debe ser true o false").optional(),
+    completed: z
+    .enum(["true", "false"], "EL valor de completed debe ser 'true' o 'false'")
+    .transform((value)=> value === "true")
+    .optional(),
 });
 
 export default updateTodoSchema;
