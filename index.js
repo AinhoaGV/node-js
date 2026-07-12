@@ -5,10 +5,14 @@ import { todosRouter } from "./routes/todos.route.js";
 import { todos } from "./data/todos.js";
 import { homeRouter } from "./routes/home.route.js";
 import { authRouter } from "./routes/auth.routes.js";
+import authMiddleware from "./middlewares/auth.middleware.js";
+
+import helmet from "helmet";
 
 const app = express();
 const port = process.env.PORT;
-
+// Añade CORS
+app.use(helmet());
 //Middlewares
 app.set("view engine", "hbs");
 app.set("views", "./views");
@@ -20,7 +24,7 @@ app.use(logger);
 
 //Rutas
 // Importamos el router de tareas como middleware para la ruta /todos
-app.use("/todos", todosRouter);
+app.use("/todos", authMiddleware, todosRouter);
 // Importamos el router de autentificación como middleware para la ruta /auth
 app.use("/auth", authRouter);
 // Importamos el router de tareas como middleware para la ruta / home
